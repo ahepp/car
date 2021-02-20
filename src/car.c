@@ -34,10 +34,14 @@ int car_parse(car_expr **e, const char *s) {
 int car_eval(car_expr **r, car_expr *e) {
     if(e) {
         car_expr_copy(r, e, 1);
-        car_log(LOG_TRACE, "evaluated \"%s\"\n", (*r)->tag);
-        return 0;
+    } else {
+        car_expr *tmp = malloc(sizeof(car_expr));
+        tmp->tag = strdup("nil");
+        tmp->next = NULL;
+        *r = tmp;
     }
-    return 1;
+    car_log(LOG_TRACE, "evaluated \"%s\"\n", (*r)->tag);
+    return 0;
 }
 
 // untested refactor
