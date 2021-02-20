@@ -4,21 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// untested refactor
-static void car_expr_copy(car_expr **dst, car_expr *src, size_t depth) {
-    car_expr **tail = dst;
-    while(src && depth > 0) {
-        car_expr *tmp = malloc(sizeof(car_expr));
-        tmp->tag = strdup(src->tag);
-        tmp->next = NULL;
-
-        *tail = tmp;
-        tail = &(tmp->next);
-        
-        src = src->next;
-        --depth;
-    }
-}
+#include "car_util.h"
 
 int car_parse(car_expr **e, const char *s) {
     size_t len = strnlen(s, CAR_MAX_STR_LEN);
@@ -30,7 +16,7 @@ int car_parse(car_expr **e, const char *s) {
     const char *delims = " ";
     char *tok = strtok(smut, delims);
     while(tok) {
-        fprintf(stderr, "\"%s\" ", tok);
+        car_log(LOG_TRACE, "parsed \"%s\"\n", tok);
 
         car_expr *tmp = malloc(sizeof(car_expr));
         tmp->tag = strdup(tok);
@@ -40,7 +26,6 @@ int car_parse(car_expr **e, const char *s) {
         tail = &(tmp->next);
         tok = strtok(NULL, delims);
     }
-    fprintf(stderr, "\n");
 
     free(smut);
     return 0;
@@ -49,16 +34,33 @@ int car_parse(car_expr **e, const char *s) {
 int car_eval(car_expr **r, car_expr *e) {
     if(e) {
         car_expr_copy(r, e, 1);
+        car_log(LOG_TRACE, "evaluated \"%s\"\n", (*r)->tag);
         return 0;
     }
     return 1;
 }
 
+// untested refactor
 void car_expr_free(car_expr *e) {
     while(e) {
         car_expr *tmp = e;
         e = e->next;
         free(tmp->tag);
         free(tmp);
+    }
+}
+// untested refactor
+void car_expr_copy(car_expr **dst, car_expr *src, size_t depth) {
+    car_expr **tail = dst;
+    while(src && depth > 0) {
+        car_expr *tmp = malloc(sizeof(car_expr));
+        tmp->tag = strdup(src->tag);
+        tmp->next = NULL;
+
+        *tail = tmp;
+        tail = &(tmp->next);
+        
+        src = src->next;
+        --depth;
     }
 }
