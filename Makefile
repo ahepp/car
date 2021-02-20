@@ -9,7 +9,7 @@ car: main.c car.o
 car.o: car.c car.h
 	$(CC) $(CFLAGS) -c $<
 
-tests: test.c car.o unity.o
+tests: test.c test_parse.c test_eval.c car.o unity.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 unity.o: unity.c unity.h
