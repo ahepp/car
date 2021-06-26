@@ -36,6 +36,7 @@ int car_eval(car_expr **r, car_expr *e) {
         car_expr_copy(r, e, 1);
     } else {
         car_expr *tmp = malloc(sizeof(car_expr));
+        tmp->type = CAR_TYPE_SYMB;
         tmp->tag = strdup("nil");
         tmp->next = NULL;
         *r = tmp;
@@ -58,6 +59,7 @@ void car_expr_copy(car_expr **dst, car_expr *src, size_t depth) {
     car_expr **tail = dst;
     while(src && depth > 0) {
         car_expr *tmp = malloc(sizeof(car_expr));
+        tmp->type = CAR_TYPE_SYMB;
         tmp->tag = strdup(src->tag);
         tmp->next = NULL;
 

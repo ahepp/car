@@ -13,37 +13,61 @@ static int eval_str_returns_no_error(car_expr **r, const char *s) {
     return !err;
 }
 
-void test_eval_empty_succeeds_and_returns_nil() {
+void test_eval_empty_succeeds_and_returns_symbol_nil() {
     car_expr *r = NULL;
 
     TEST_ASSERT_TRUE(eval_str_returns_no_error(&r, ""));
+    TEST_ASSERT_EQUAL_INT(r->type, CAR_TYPE_SYMB);
     TEST_ASSERT_EQUAL_STRING(r->tag, "nil");
 
     car_expr_free(r);
 }
 
-void test_eval_t_succeeds_and_returns_t() {
+void test_eval_t_succeeds_and_returns_symbol_t() {
     car_expr *r = NULL;
 
     TEST_ASSERT_TRUE(eval_str_returns_no_error(&r, "t"));
+    TEST_ASSERT_EQUAL_INT(r->type, CAR_TYPE_SYMB);
     TEST_ASSERT_EQUAL_STRING(r->tag, "t");
 
     car_expr_free(r);
 }
 
-void test_eval_nil_succeeds_and_returns_nil() {
+void test_eval_nil_succeeds_and_returns_symbol_nil() {
     car_expr *r = NULL;
 
     TEST_ASSERT_TRUE(eval_str_returns_no_error(&r, "nil"));
+    TEST_ASSERT_EQUAL_INT(r->type, CAR_TYPE_SYMB);
     TEST_ASSERT_EQUAL_STRING(r->tag, "nil");
 
     car_expr_free(r);
 }
 
+void test_eval_o_succeeds_and_returns_symbol_o() {
+    car_expr *r = NULL;
+
+    TEST_ASSERT_TRUE(eval_str_returns_no_error(&r, "o"));
+    TEST_ASSERT_EQUAL_INT(r->type, CAR_TYPE_SYMB);
+    TEST_ASSERT_EQUAL_STRING(r->tag, "o");
+
+    car_expr_free(r);
+}
+
+void test_eval_apply_succeeds_and_returns_symbol_apply() {
+    car_expr *r = NULL;
+
+    TEST_ASSERT_TRUE(eval_str_returns_no_error(&r, "apply"));
+    TEST_ASSERT_EQUAL_INT(r->type, CAR_TYPE_SYMB);
+    TEST_ASSERT_EQUAL_STRING(r->tag, "apply");
+
+    car_expr_free(r);
+}
 
 void test_eval() {
-    RUN_TEST(test_eval_empty_succeeds_and_returns_nil);
-    RUN_TEST(test_eval_t_succeeds_and_returns_t);
-    RUN_TEST(test_eval_nil_succeeds_and_returns_nil);
+    RUN_TEST(test_eval_empty_succeeds_and_returns_symbol_nil);
+    RUN_TEST(test_eval_t_succeeds_and_returns_symbol_t);
+    RUN_TEST(test_eval_nil_succeeds_and_returns_symbol_nil);
+    RUN_TEST(test_eval_o_succeeds_and_returns_symbol_o);
+    RUN_TEST(test_eval_apply_succeeds_and_returns_symbol_apply);
 }
 
