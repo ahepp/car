@@ -1,4 +1,4 @@
-CC=gcc
+CC=cc
 CFLAGS=-g -std=c11 -Werror -Werror=vla -pedantic -D_POSIX_C_SOURCE=200809L
 SRCDIR=../src
 TESTDIR=../test
