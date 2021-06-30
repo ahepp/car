@@ -5,15 +5,17 @@
 
 #define CAR_MAX_STR_LEN 1024
 
-#define CAR_TYPE_SYMB 0
-#define CAR_TYPE_PAIR 1
-#define CAR_TYPE_CHAR 2
-#define CAR_TYPE_STRM 3
+typedef enum car_type {
+    CAR_TYPE_CHAR,
+    CAR_TYPE_PAIR,
+    CAR_TYPE_STRE,
+    CAR_TYPE_SYMB
+} car_type;
 
 typedef struct car_expr car_expr;
 struct car_expr {
-    int type;
     char *tag;
+    car_type type;
     car_expr *next;
 };
 
