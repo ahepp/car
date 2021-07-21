@@ -1,13 +1,8 @@
 #ifndef CAR_UTIL_H
 #define CAR_UTIL_H
 
-#define LOG_ERROR 0
-#define LOG_CRITICAL 1
-#define LOG_WARNING 2
-#define LOG_INFO 3
-#define LOG_DEBUG 4
-#define LOG_TRACE 5
+#include "car.h"
 
-void car_log(int level, const char *fmt, ...);
+void car_expr_free(struct car_expr *e);
 
 #endif // CAR_UTIL_H

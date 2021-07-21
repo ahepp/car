@@ -1,38 +1,25 @@
 #include "car_util.h"
 
-#include <stdarg.h>
-#include <stdio.h>
+#include <stdlib.h>
 
-void car_log(int level, const char *fmt, ...)
+#include "car.h"
+#include "car_log.h"
+
+void car_expr_free(struct car_expr *e)
 {
-        va_list args;
-        va_start(args, fmt);
-        FILE *fd = stdout;
-        const char *msg;
-        switch (level) {
+        switch (e->type) {
         default:
-                fprintf(fd, "!! LOG CALLED WITH INVALID LEVEL !!\n");
-                return;
-        case LOG_ERROR:
-                msg = "   ERROR";
+                car_log(LOG_ERROR, "Attempted to free an unknown type.");
+                exit(1);
+        case CAR_TYPE_PAIR:
+                car_expr_free(e->cpair->car);
+                car_expr_free(e->cpair->cdr);
+                free(e->cpair);
                 break;
-        case LOG_CRITICAL:
-                msg = "CRITICAL";
-                break;
-        case LOG_WARNING:
-                msg = " WARNING";
-                break;
-        case LOG_INFO:
-                msg = "    INFO";
-                break;
-        case LOG_DEBUG:
-                msg = "   DEBUG";
-                break;
-        case LOG_TRACE:
-                msg = "   TRACE";
+        case CAR_TYPE_SYMB:
+                free(e->csymb);
+                e->csymb = NULL;
                 break;
         }
-        fprintf(stdout, "%s: ", msg);
-        vfprintf(stdout, fmt, args);
-        va_end(args);
+        free(e);
 }

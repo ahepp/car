@@ -5,6 +5,7 @@ RUN dpkg-reconfigure debconf -f noninteractive -p critical
 RUN apt-get update && apt-get install --no-install-recommends -y \
     clang \
     clang-format \
+    gdb \
     make \
     valgrind
 
